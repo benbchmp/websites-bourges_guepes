@@ -1,7 +1,7 @@
 ---
 import { Image } from "astro:assets";
 import fond from "../assets/exterminateur.jpg";
-import { entreprise, garanties } from "../data/site";
+import { entreprise } from "../data/site";
 ---
 
 <section id="hero" class="relative flex min-h-[100svh] flex-col justify-end overflow-hidden bg-nuit">
@@ -37,19 +37,11 @@ import { entreprise, garanties } from "../data/site";
   </div>
 
   <div class="relative mx-auto w-full max-w-7xl px-5 pb-14 pt-32 sm:px-8 sm:pb-20">
-    <p
-      class="mb-6 inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.16em] text-white backdrop-blur-sm"
-    >
-      <span class="relative flex h-2 w-2" aria-hidden="true">
-        <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-jaune opacity-75"></span>
-        <span class="relative inline-flex h-2 w-2 rounded-full bg-jaune"></span>
-      </span>
-      {entreprise.zone} · 7 j/7
-    </p>
-
-    <h1 class="max-w-[17ch] text-[clamp(2.5rem,7.2vw,5.4rem)] text-white">
-      Un nid de guêpes ou de frelons ?
-      <span class="block text-jaune">On s'en occupe aujourd'hui.</span>
+    <!-- Rien au-dessus du titre : pas de pastille « zone · 7 j/7 ». Le premier
+         mot lu doit être l'accroche. -->
+    <h1 class="max-w-[24ch] text-[clamp(2.3rem,6.2vw,4.7rem)] text-white">
+      Ils sont déjà chez vous.
+      <span class="block text-jaune">Vous allez les laisser faire ?</span>
     </h1>
 
     <p class="mt-6 max-w-[48ch] text-lg text-white/75 sm:text-xl">
@@ -67,7 +59,7 @@ import { entreprise, garanties } from "../data/site";
         <svg class="h-5 w-5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
           <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"></path>
         </svg>
-        <span class="tabular-nums">{entreprise.telephone}</span>
+        <span>Reprenez le contrôle</span>
       </a>
       <a
         href="#realisations"
@@ -77,20 +69,5 @@ import { entreprise, garanties } from "../data/site";
         Voir nos interventions
       </a>
     </div>
-
-    <!-- Trois preuves courtes sous les boutons : ce sont les arguments qui
-         décident quelqu'un à composer le numéro plutôt qu'à fermer l'onglet. -->
-    <ul class="mt-9 flex flex-wrap items-center gap-x-7 gap-y-2.5 border-t border-white/15 pt-6">
-      {
-        garanties.map((garantie) => (
-          <li class="flex items-center gap-2 text-sm font-medium text-white/80">
-            <svg class="h-4 w-4 shrink-0 text-jaune" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <path d="M20 6 9 17l-5-5" />
-            </svg>
-            {garantie}
-          </li>
-        ))
-      }
-    </ul>
   </div>
 </section>

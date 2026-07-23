@@ -53,13 +53,6 @@ export const horaires = [
   { jour: "Dimanche", heures: "08:00 – 21:00" },
 ];
 
-// Affichées sous les boutons du hero.
-export const garanties = [
-  "7 j/7, de 8h à 21h",
-  "Agréé Certibiocide",
-  "Devis gratuit par téléphone",
-];
-
 // Sert à la fois aux pastilles de la section « À propos », à la liste du pied
 // de page et au menu déroulant du formulaire de contact.
 export const nuisibles = [
@@ -98,7 +91,7 @@ export const realisations: Realisation[] = [
     lieu: "Jardin · Saint-Doulchard",
     chapo: "Traitement à la perche",
     texte:
-      "Nid de la taille d'un ballon de basket, repéré en haut d'un tilleul après la chute des feuilles, au-dessus d'une aire de jeux. Aucune nacelle possible dans le jardin. Traitement depuis le sol à la perche télescopique, en fin de journée : c'est le moment où la quasi-totalité de la colonie est rentrée, donc celui où le traitement en attrape le plus. Nid décroché le surlendemain, une fois toute activité éteinte, et brûlé — un nid abandonné laissé en place attire d'autres nuisibles.",
+      "Nid de la taille d'un ballon de basket, repéré en haut d'un tilleul après la chute des feuilles, au-dessus d'une aire de jeux. Aucune nacelle possible dans le jardin. Traitement depuis le sol à la perche télescopique, en fin de journée : c'est le moment où la quasi-totalité de la colonie est rentrée, donc celui où le traitement en attrape le plus. Nid décroché le surlendemain, une fois toute activité éteinte, et brûlé (un nid abandonné laissé en place attire d'autres nuisibles).",
   },
   {
     id: "charpente",
@@ -118,7 +111,7 @@ export const processus = [
     titre: "Identifier avant de se déplacer",
     accroche: "Le tarif est annoncé avant le départ",
     texte:
-      "Deux ou trois questions suffisent : la forme du nid, sa hauteur, la façon dont les insectes entrent. On sait alors s'il s'agit de guêpes, de frelons européens ou de frelons asiatiques — ce n'est ni le même danger, ni le même matériel. Le prix est annoncé à ce moment-là, pas une fois le camion garé devant chez vous.",
+      "Deux ou trois questions suffisent : la forme du nid, sa hauteur, la façon dont les insectes entrent. On sait alors s'il s'agit de guêpes, de frelons européens ou de frelons asiatiques ; ce n'est ni le même danger, ni le même matériel. Le prix est annoncé à ce moment-là, pas une fois le camion garé devant chez vous.",
   },
   {
     quand: "Sur place",
@@ -132,7 +125,7 @@ export const processus = [
     titre: "Retirer et vérifier",
     accroche: "Un nid vide attire d'autres nuisibles",
     texte:
-      "Une fois l'activité éteinte, le nid est déposé quand il est accessible, et le point d'ancrage nettoyé — les reines fondatrices reviennent volontiers là où un nid a déjà tenu. Si de l'activité reprend dans les jours qui suivent, on revient. C'est compris.",
+      "Une fois l'activité éteinte, le nid est déposé quand il est accessible, et le point d'ancrage nettoyé : les reines fondatrices reviennent volontiers là où un nid a déjà tenu. Si de l'activité reprend dans les jours qui suivent, on revient. C'est compris.",
   },
 ];
 

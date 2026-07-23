@@ -61,7 +61,7 @@ const images: Record<string, ImageMetadata> = { volet, arbre, charpente };
             <div class="relative sm:w-[38%] sm:shrink-0">
               <Image
                 src={images[realisation.image]!}
-                alt={`${realisation.titre} — ${realisation.lieu}`}
+                alt={`${realisation.titre}, ${realisation.lieu}`}
                 widths={[420, 640]}
                 sizes="(min-width: 640px) 38vw, 100vw"
                 class="h-56 w-full object-cover sm:h-full"

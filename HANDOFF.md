@@ -1,6 +1,42 @@
 # HANDOFF — Bourges Guêpes
 
-**Dernière session : 23/07/2026.** Premier jet livré, vérifié en local. Dépôt Git initialisé
+**Dernière session : 24/07/2026.** Site en ligne sur Railway. Hero refondu et contenu
+repassé (règles d'écriture ci-dessous).
+
+> ⚠️ **La version en ligne est en retard d'un cran sur le local.** Les modifications du
+> 24/07 (hero + tirets) sont commitées en local mais **pas poussées** : pousser déclenche
+> un déploiement automatique, et Benjamin n'a pas encore dit go.
+
+## Session du 24/07 : hero et règles d'écriture
+
+**Hero refondu**, à la demande de Benjamin :
+
+| | Avant | Après |
+|---|---|---|
+| Accroche | « Un nid de guêpes ou de frelons ? / On s'en occupe aujourd'hui. » | « Ils sont déjà chez vous. / **Vous allez les laisser faire ?** » |
+| Bouton principal | le numéro de téléphone | « **Reprenez le contrôle** » (lien `tel:` inchangé) |
+| Pastille « zone · 7 j/7 » au-dessus du titre | présente | **supprimée** |
+| Bande « ✓ 7 j/7 ✓ Certibiocide ✓ Devis gratuit » sous les boutons | présente | **supprimée** |
+
+Ces deux suppressions sont désormais des **interdits catégoriques sur tous les sites**,
+inscrits dans `_shared/design-system.md` et `CLAUDE.md` §3. L'export `garanties` de
+`src/data/site.ts` a été retiré (il ne servait qu'à cette bande).
+
+Le numéro reste visible en permanence dans la barre de navigation (en toutes lettres sur
+ordinateur, en bouton icône sur mobile), donc rien n'est perdu en le retirant du hero.
+
+**Tirets bannis.** Plus aucun `—` au milieu d'une phrase dans le contenu visible ; remplacés
+par `:`, `;`, `( )` ou un point. Neuf occurrences corrigées (accroches de sections, textes
+des réalisations et du protocole, texte d'aide du formulaire, `alt` et `aria-label`, titre
+de la page). Contrôle : `grep -o ".\{50\}[—–].\{50\}" dist/index.html` ne doit plus ressortir
+que les intervalles d'horaires.
+
+Vérifié au rendu réel (captures 1440 px et 390 px) : aucune erreur console, aucun
+débordement horizontal, Anton chargée, tous les blocs `.reveal` révélés.
+
+---
+
+**Session du 23/07/2026.** Premier jet livré, vérifié en local. Dépôt Git initialisé
 et poussé sur GitHub.
 
 ---
