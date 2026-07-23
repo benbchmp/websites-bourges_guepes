@@ -111,6 +111,32 @@ les `dependencies` de `site/package.json`.
 **Le seul réglage à faire dans l'interface Railway : Root Directory = `/site`.**
 Railway le met à `/` par défaut et le build échoue sans ça.
 
+**Projet Railway : `wonderful-enjoyment` · service `websites-bourges_guepes`.**
+
+### Session du 24/07/2026 — premier déploiement en échec
+
+Trois builds successifs ont échoué sur :
+
+```
+sh: 1: npm: not found          → exit code 127
+```
+
+Ce n'est **pas** le message annoncé dans la doc (« Nixpacks was unable to generate a build
+plan »). Comme `railway.json` fournit explicitement un `buildCommand` et un `startCommand`,
+Railpack ne se plaint pas de ne pas savoir quoi faire : il exécute la commande dans une image
+**où Node n'a jamais été installé**. Signe qui ne trompe pas dans le log de build : le plan
+Railpack affiche une section `Steps` et une section `Deploy`, mais **aucune section
+`Packages`** — donc aucun langage détecté.
+
+Cause : Railpack cherche `package.json` à la racine du contexte de build. Il n'y en a pas à la
+racine du dépôt, il est dans `site/`. D'où le Root Directory.
+
+**Le piège qui a coûté deux builds :** après avoir corrigé le Root Directory, un simple
+**redéploiement ne suffit pas**. Railway réutilise l'instantané du dépôt déjà téléchargé —
+visible dans le log (`fetched snapshot`, et une archive de taille **strictement identique**
+d'un build à l'autre). Le nouveau réglage n'est donc pas appliqué. Il faut **un nouveau
+commit poussé** pour que Railway re-télécharge le dépôt.
+
 La procédure complète, les pièges et le tableau de dépannage sont dans
 **`_shared/deploiement-railway.md`** (valable pour tous les clients).
 
