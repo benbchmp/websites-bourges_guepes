@@ -3,9 +3,9 @@
 **Dernière session : 24/07/2026.** Site en ligne sur Railway. Hero refondu et contenu
 repassé (règles d'écriture ci-dessous).
 
-> ⚠️ **La version en ligne est en retard d'un cran sur le local.** Les modifications du
-> 24/07 (hero + tirets) sont commitées en local mais **pas poussées** : pousser déclenche
-> un déploiement automatique, et Benjamin n'a pas encore dit go.
+> ✅ **En ligne et à jour.** Les modifications du 24/07 (hero + tirets) sont déployées
+> (commit `ed4a5c9`). Vérifié sur l'URL publique : nouvelle accroche présente, ancienne
+> bande de garanties absente, nouveau titre de page, aucune erreur console.
 
 ## Session du 24/07 : hero et règles d'écriture
 
