@@ -99,7 +99,10 @@ désinsectiseur pressé.
 - [ ] Vrais avis Google (ils existent, 14) → `avisReels = true`
 - [ ] E-mail du client → clé Web3Forms
 - [ ] Passe SEO dédiée (JSON-LD `LocalBusiness`, métas, sitemap, audit `seo-geo-aeo`)
-- [ ] Nom de domaine + déploiement Railway (**uniquement quand Benjamin dit go**)
+- [x] ~~Déploiement Railway~~ → en ligne le 24/07/2026
+- [ ] Nom de domaine personnalisé (Settings → Networking → Custom Domain)
+- [ ] Renommer le projet Railway `wonderful-enjoyment` → `BOURGES GUEPES` (cohérence avec
+      les autres projets : AIGLE D'ORIENT, MEKONG, REFLEX ARCHI…)
 
 ---
 
@@ -113,32 +116,39 @@ Railway le met à `/` par défaut et le build échoue sans ça.
 
 **Projet Railway : `wonderful-enjoyment` · service `websites-bourges_guepes`.**
 
-### Session du 24/07/2026 — premier déploiement en échec
+### ✅ EN LIGNE depuis le 24/07/2026
 
-Trois builds successifs ont échoué sur :
+**https://websites-bourgesguepes-production.up.railway.app**
 
-```
-sh: 1: npm: not found          → exit code 127
-```
+Vérifié en ligne : HTML (bon titre, bon contenu), CSS, les 4 polices woff2, les images
+WebP et le favicon répondent tous en **200**. Build Railway identique au build local
+(1 page, 19 images optimisées).
 
-Ce n'est **pas** le message annoncé dans la doc (« Nixpacks was unable to generate a build
-plan »). Comme `railway.json` fournit explicitement un `buildCommand` et un `startCommand`,
-Railpack ne se plaint pas de ne pas savoir quoi faire : il exécute la commande dans une image
-**où Node n'a jamais été installé**. Signe qui ne trompe pas dans le log de build : le plan
-Railpack affiche une section `Steps` et une section `Deploy`, mais **aucune section
-`Packages`** — donc aucun langage détecté.
+Configuration finale — **aucune variable d'environnement**, un seul réglage manuel :
 
-Cause : Railpack cherche `package.json` à la racine du contexte de build. Il n'y en a pas à la
-racine du dépôt, il est dans `site/`. D'où le Root Directory.
+| | |
+|---|---|
+| Root Directory (interface Railway) | `/site` |
+| `railway.json` | à la **racine** du dépôt |
+| `buildCommand` | `npm run build` **seul** |
+| `startCommand` | `npx serve dist -l tcp://0.0.0.0:${PORT:-8080}` |
+| `site/.node-version` | `22` |
 
-**Le piège qui a coûté deux builds :** après avoir corrigé le Root Directory, un simple
-**redéploiement ne suffit pas**. Railway réutilise l'instantané du dépôt déjà téléchargé —
-visible dans le log (`fetched snapshot`, et une archive de taille **strictement identique**
-d'un build à l'autre). Le nouveau réglage n'est donc pas appliqué. Il faut **un nouveau
-commit poussé** pour que Railway re-télécharge le dépôt.
+### Ce qui a coûté 6 builds ratés (et qui est maintenant documenté)
 
-La procédure complète, les pièges et le tableau de dépannage sont dans
-**`_shared/deploiement-railway.md`** (valable pour tous les clients).
+1. **`npm: not found` (exit 127)** — Railpack n'installait aucun Node. Le signe : le plan de
+   build n'affiche **aucune section `Packages`**. Corrigé par Root Directory `/site`
+   + `site/.node-version`.
+2. **`EBUSY: rmdir '/app/node_modules/.astro'` (exit 240)** — le `buildCommand` contenait
+   `npm ci && npm run build`. Railpack fait **déjà** l'installation ; le second `npm ci`
+   tentait d'effacer un `node_modules` monté en cache.
+3. **Un « Redeploy » ne relit pas le dépôt** — Railway réutilise l'instantané (archive de
+   taille strictement identique d'un build à l'autre). Après un changement de réglage,
+   il faut **pousser un commit**.
+
+La recette complète, réutilisable pour tous les clients, est dans
+**`_shared/deploiement-railway.md`**, et les points essentiels sont remontés dans
+`CLAUDE.md` §7.
 
 Testé en local — c'est exactement ce que Railway servira :
 ```bash
