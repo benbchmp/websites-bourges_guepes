@@ -1,0 +1,141 @@
+---
+import { avis, entreprise } from "../data/site";
+
+// ⚠️ Tant que `avisReels` vaut false dans src/data/site.ts, les témoignages
+// ci-dessous sont des exemples de maquette, pas de vrais avis clients. À
+// remplacer par les avis Google réels avant toute mise en ligne.
+
+const teintes = ["bg-jaune text-noir", "bg-noir text-jaune", "bg-rouge/12 text-rouge-fonce"];
+
+function initiales(nom: string) {
+  const morceaux = nom.replace(/\./g, "").split(/\s+/).filter(Boolean);
+  const premier = morceaux[0]?.[0] ?? "";
+  const dernier = morceaux.length > 1 ? morceaux[morceaux.length - 1][0] : "";
+  return (premier + dernier).toUpperCase();
+}
+
+const enrichis = avis.map((a, i) => ({
+  ...a,
+  initiales: initiales(a.nom),
+  teinte: teintes[i % teintes.length],
+}));
+
+// Trois colonnes, vitesses et décalages différents → défilement « parallaxe ».
+const colonnes = [
+  { items: enrichis.slice(0, 2), duree: "34s", retard: "0s", visible: "flex" },
+  { items: enrichis.slice(2, 4), duree: "44s", retard: "-6s", visible: "hidden md:flex" },
+  { items: enrichis.slice(4, 6), duree: "39s", retard: "-3s", visible: "hidden lg:flex" },
+];
+
+// La note Google n'a pas été relevée : tant qu'elle vaut null, on affiche un
+// simple lien vers la fiche plutôt qu'une pastille de notation. On n'invente
+// pas de note.
+const noteConnue = entreprise.noteGoogle !== null && entreprise.nombreAvisGoogle !== null;
+
+const etoile = `<svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l2.9 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l7.1-1.01L12 2z"/></svg>`;
+const etoiles = etoile.repeat(5);
+---
+
+<section id="avis" class="relative overflow-hidden bg-clair py-20 sm:py-28 lg:py-32">
+  <div class="mx-auto max-w-7xl px-5 sm:px-8">
+    <div class="reveal mx-auto mb-12 max-w-2xl text-center">
+      <p class="overline">Avis</p>
+      <span class="rule-guepe mx-auto my-5"></span>
+      <h2 class="text-[clamp(1.9rem,4.2vw,3.1rem)]">Ce que disent nos clients</h2>
+      <p class="mt-5 text-noir/60">
+        Particuliers, gîtes et exploitations agricoles dans tout le {entreprise.departement}.
+      </p>
+
+      <div class="mt-7 flex justify-center">
+        <a
+          href={entreprise.mapsLien}
+          target="_blank"
+          rel="noopener noreferrer"
+          data-tap
+          class="inline-flex items-center gap-2.5 rounded-full border border-noir/12 bg-white px-5 py-2.5 text-sm shadow-sm transition-colors hover:border-noir/35"
+        >
+          {
+            noteConnue ? (
+              <>
+                <span class="flex gap-0.5 text-jaune-fonce" set:html={etoiles} />
+                <span class="font-bold tabular-nums text-noir">{entreprise.noteGoogle}</span>
+                <span class="text-noir/50">· {entreprise.nombreAvisGoogle} avis Google</span>
+              </>
+            ) : (
+              <span class="font-semibold text-noir">Voir nos avis sur Google</span>
+            )
+          }
+          <svg class="h-3.5 w-3.5 text-noir/40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M7 17 17 7M8 7h9v9"></path>
+          </svg>
+        </a>
+      </div>
+    </div>
+
+    <div
+      class="reveal avis-fondu relative flex max-h-[34rem] justify-center gap-5 overflow-hidden"
+      aria-label="Témoignages de clients"
+    >
+      {
+        colonnes.map((colonne) => (
+          <div
+            class={`avis-piste w-full max-w-sm shrink-0 flex-col ${colonne.visible}`}
+            style={`--duree:${colonne.duree};--retard:${colonne.retard}`}
+          >
+            {[...colonne.items, ...colonne.items].map((a, i) => (
+              <figure
+                aria-hidden={i >= colonne.items.length ? "true" : undefined}
+                class="mb-5 w-full rounded-2xl border border-noir/8 bg-white p-6 shadow-[0_18px_40px_-32px_rgba(33,33,33,0.55)]"
+              >
+                <div class="flex gap-0.5 text-jaune-fonce" aria-hidden="true" set:html={etoiles} />
+                <blockquote class="mt-3.5 text-[0.95rem] leading-relaxed text-noir/75">
+                  « {a.texte} »
+                </blockquote>
+                <figcaption class="mt-5 flex items-center gap-3">
+                  <span class={`grid h-10 w-10 shrink-0 place-items-center rounded-full text-sm font-bold ${a.teinte}`} aria-hidden="true">
+                    {a.initiales}
+                  </span>
+                  <span class="min-w-0">
+                    <span class="block font-semibold leading-5 text-noir">{a.nom}</span>
+                    <span class="block text-sm leading-5 text-noir/40">Avis Google</span>
+                  </span>
+                </figcaption>
+              </figure>
+            ))}
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  /* Fondu haut/bas sur la zone de défilement, pour que les cartes n'arrivent
+     pas en butée franche contre le bord de la section. */
+  .avis-fondu {
+    -webkit-mask-image: linear-gradient(to bottom, transparent, #000 16%, #000 84%, transparent);
+    mask-image: linear-gradient(to bottom, transparent, #000 16%, #000 84%, transparent);
+  }
+
+  /* Défilement vertical infini : la liste est doublée, on translate de -50%. */
+  @keyframes avis-defile {
+    to {
+      transform: translateY(-50%);
+    }
+  }
+  .avis-piste {
+    animation: avis-defile var(--duree, 40s) linear infinite;
+    animation-delay: var(--retard, 0s);
+    will-change: transform;
+  }
+  /* Pause au survol : on doit pouvoir finir de lire un témoignage. */
+  .avis-fondu:hover .avis-piste {
+    animation-play-state: paused;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .avis-piste {
+      animation: none;
+    }
+  }
+</style>

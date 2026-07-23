@@ -1,0 +1,77 @@
+---
+import { Image } from "astro:assets";
+import logo from "../assets/logo.png";
+import { entreprise, nuisibles } from "../data/site";
+
+const liens = [
+  { href: "#a-propos", texte: "À propos" },
+  { href: "#realisations", texte: "Réalisations" },
+  { href: "#protocole", texte: "Protocole" },
+  { href: "#avis", texte: "Avis" },
+  { href: "#contact", texte: "Contact" },
+];
+
+const annee = new Date().getFullYear();
+---
+
+<!-- Pied de page sombre : c'est l'usage prévu par la charte pour le noir
+     profond, et ça referme la page comme le hero l'ouvre. -->
+<footer class="bg-nuit text-white">
+  <div class="mx-auto max-w-7xl px-5 py-14 sm:px-8 sm:py-16">
+    <div class="grid gap-10 sm:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr]">
+      <div>
+        <div class="flex items-center gap-3">
+          <Image src={logo} alt="" width={128} densities={[1, 2]} class="h-12 w-auto" />
+          <span class="flex flex-col justify-center leading-none">
+            <span class="font-display text-[1.35rem] leading-none text-white">BOURGES GUÊPES</span>
+            <span class="mt-1.5 text-[0.6rem] font-semibold uppercase leading-none tracking-[0.2em] text-jaune">
+              Destruction de nids · {entreprise.departement}
+            </span>
+          </span>
+        </div>
+
+        <p class="mt-5 max-w-[42ch] text-white/60">
+          Destruction de nids de guêpes, de frelons européens et de frelons asiatiques dans
+          {" "}{entreprise.zone}. Agréé Certibiocide, 7 j/7 de 8h à 21h.
+        </p>
+
+        <a
+          href={entreprise.telephoneLien}
+          data-tap
+          class="mt-6 inline-flex items-center gap-2.5 rounded-xl bg-jaune px-5 py-3 font-bold text-noir transition-colors hover:bg-jaune-fonce"
+        >
+          <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"></path>
+          </svg>
+          <span class="tabular-nums">{entreprise.telephone}</span>
+        </a>
+      </div>
+
+      <nav aria-label="Pied de page">
+        <h2 class="text-sm font-bold uppercase tracking-[0.18em] text-jaune">Le site</h2>
+        <ul class="mt-5 flex flex-col gap-2.5">
+          {
+            liens.map((lien) => (
+              <li>
+                <a href={lien.href} class="text-white/60 transition-colors hover:text-white">
+                  {lien.texte}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
+
+      <div>
+        <h2 class="text-sm font-bold uppercase tracking-[0.18em] text-jaune">Nous traitons</h2>
+        <ul class="mt-5 flex flex-col gap-2.5">
+          {nuisibles.map((nuisible) => <li class="text-white/60">{nuisible}</li>)}
+        </ul>
+      </div>
+    </div>
+
+    <div class="mt-12 flex flex-col gap-3 border-t border-white/12 pt-7 sm:flex-row sm:items-center sm:justify-between">
+      <p class="text-sm text-white/40">© {annee} {entreprise.nom}. Tous droits réservés.</p>
+    </div>
+  </div>
+</footer>

@@ -1,0 +1,278 @@
+---
+import { entreprise, horaires, nuisibles, web3formsKey } from "../data/site";
+---
+
+<section id="contact" class="bg-white py-20 sm:py-28 lg:py-32">
+  <div class="mx-auto max-w-7xl px-5 sm:px-8">
+    <div class="reveal max-w-2xl">
+      <p class="overline">Contact</p>
+      <span class="rule-guepe my-5"></span>
+      <h2 class="text-[clamp(1.9rem,4.2vw,3.1rem)]">Décrivez-nous la situation</h2>
+      <p class="mt-5 max-w-[58ch] text-[1.05rem] text-noir/65">
+        Un doute sur l'espèce, la hauteur ou l'accès&nbsp;? Le téléphone reste le plus rapide — le
+        tarif y est donné directement. Sinon, laissez vos coordonnées&nbsp;: nous vous rappelons.
+      </p>
+    </div>
+
+    <div class="mt-12 grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:gap-10">
+      <!-- Formulaire -->
+      <form
+        id="formulaire-contact"
+        data-cle={web3formsKey ?? ""}
+        class="reveal relative rounded-3xl border border-noir/10 bg-clair p-7 sm:p-9"
+        novalidate
+      >
+        <div class="grid gap-5 sm:grid-cols-2">
+          <div class="flex flex-col gap-2">
+            <label for="champ-nom" class="text-sm font-semibold text-noir">Nom et prénom</label>
+            <input
+              id="champ-nom"
+              name="nom"
+              type="text"
+              required
+              autocomplete="name"
+              class="min-h-12 rounded-xl border border-noir/15 bg-white px-4 text-noir outline-none transition-colors placeholder:text-noir/35 focus:border-noir"
+              placeholder="Jean Dupont"
+            />
+          </div>
+
+          <div class="flex flex-col gap-2">
+            <label for="champ-tel" class="text-sm font-semibold text-noir">Téléphone</label>
+            <input
+              id="champ-tel"
+              name="telephone"
+              type="tel"
+              required
+              autocomplete="tel"
+              class="min-h-12 rounded-xl border border-noir/15 bg-white px-4 text-noir outline-none transition-colors placeholder:text-noir/35 focus:border-noir"
+              placeholder="06 12 34 56 78"
+            />
+          </div>
+
+          <div class="flex flex-col gap-2 sm:col-span-2">
+            <label for="champ-email" class="text-sm font-semibold text-noir">
+              E-mail <span class="font-normal text-noir/45">(facultatif)</span>
+            </label>
+            <input
+              id="champ-email"
+              name="email"
+              type="email"
+              autocomplete="email"
+              class="min-h-12 rounded-xl border border-noir/15 bg-white px-4 text-noir outline-none transition-colors placeholder:text-noir/35 focus:border-noir"
+              placeholder="jean.dupont@exemple.fr"
+            />
+          </div>
+
+          <div class="flex flex-col gap-2 sm:col-span-2">
+            <label for="champ-nuisible" class="text-sm font-semibold text-noir">Type de nid</label>
+            <select
+              id="champ-nuisible"
+              name="nuisible"
+              class="min-h-12 rounded-xl border border-noir/15 bg-white px-4 text-noir outline-none transition-colors focus:border-noir"
+            >
+              <option value="">Je ne sais pas encore</option>
+              {nuisibles.map((nuisible) => <option value={nuisible}>{nuisible}</option>)}
+              <option value="Essaim d'abeilles">Essaim d'abeilles</option>
+              <option value="Autre">Autre</option>
+            </select>
+          </div>
+
+          <div class="flex flex-col gap-2 sm:col-span-2">
+            <label for="champ-message" class="text-sm font-semibold text-noir">Votre situation</label>
+            <textarea
+              id="champ-message"
+              name="message"
+              rows="4"
+              required
+              class="resize-y rounded-xl border border-noir/15 bg-white p-4 text-noir outline-none transition-colors placeholder:text-noir/35 focus:border-noir"
+              placeholder="Où est le nid — sous une tuile, dans un volet, dans un arbre ? À quelle hauteur ? Depuis quand ?"
+            ></textarea>
+          </div>
+        </div>
+
+        <!-- Piège à robots : invisible et hors du parcours clavier. Un envoi
+             qui le remplit est un robot, on l'ignore silencieusement. -->
+        <div class="absolute h-0 w-0 overflow-hidden" aria-hidden="true">
+          <label for="champ-societe">Ne pas remplir</label>
+          <input id="champ-societe" name="societe" type="text" tabindex="-1" autocomplete="off" />
+        </div>
+
+        <button
+          type="submit"
+          id="bouton-envoi"
+          data-tap
+          class="mt-7 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-rouge px-7 py-4 text-base font-bold text-white transition-colors hover:bg-rouge-fonce disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
+        >
+          Envoyer ma demande
+        </button>
+
+        <p id="statut-formulaire" role="status" aria-live="polite" class="mt-4 min-h-6 text-sm"></p>
+      </form>
+
+      <!-- Coordonnées -->
+      <div class="reveal flex flex-col gap-5">
+        <a
+          href={entreprise.telephoneLien}
+          class="group flex items-center gap-4 rounded-3xl bg-jaune p-6 text-noir transition-colors hover:bg-jaune-fonce sm:p-7"
+        >
+          <span class="grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-noir/12">
+            <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"></path>
+            </svg>
+          </span>
+          <span class="min-w-0">
+            <span class="block text-xs font-bold uppercase tracking-[0.18em] text-noir/55">
+              Un nid ? Appelez
+            </span>
+            <span class="block text-2xl font-bold tabular-nums sm:text-[1.75rem]">{entreprise.telephone}</span>
+          </span>
+        </a>
+
+        <div class="rounded-3xl border border-noir/10 bg-clair p-6 sm:p-7">
+          <div class="flex items-center justify-between gap-3">
+            <h3 class="text-lg">Horaires d'ouverture</h3>
+            <span id="statut-ouverture" class="rounded-full px-3 py-1 text-xs font-bold"></span>
+          </div>
+          <dl class="mt-4 flex flex-col">
+            {
+              horaires.map((jour) => (
+                <div
+                  class="flex items-baseline justify-between gap-4 border-b border-noir/8 py-2 last:border-0"
+                  data-jour={jour.jour}
+                >
+                  <dt class="text-noir/70">{jour.jour}</dt>
+                  <dd class="font-medium tabular-nums text-noir">{jour.heures}</dd>
+                </div>
+              ))
+            }
+          </dl>
+        </div>
+      </div>
+    </div>
+
+    <!-- Carte -->
+    <div class="reveal mt-8 overflow-hidden rounded-3xl border border-noir/10">
+      <iframe
+        src={entreprise.mapsEmbed}
+        title={`Zone d'intervention de ${entreprise.nom} sur Google Maps`}
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+        class="block h-[380px] w-full border-0 sm:h-[440px]"></iframe>
+      <div class="flex flex-wrap items-center justify-between gap-3 border-t border-noir/10 bg-clair px-6 py-4">
+        <p class="font-semibold text-noir">{entreprise.nom} — {entreprise.zone}</p>
+        <a
+          href={entreprise.mapsLien}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center gap-1.5 text-sm font-semibold text-rouge-fonce hover:underline"
+        >
+          Ouvrir dans Google Maps
+          <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M7 17 17 7M8 7h9v9"></path>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  /* --- Statut ouvert / fermé + mise en évidence du jour ------------------ */
+  const lignes = document.querySelectorAll<HTMLElement>("[data-jour]");
+  const badge = document.getElementById("statut-ouverture");
+
+  if (lignes.length && badge) {
+    const maintenant = new Date();
+    // getDay() renvoie 0 pour dimanche ; nos lignes commencent au lundi.
+    const indexJour = (maintenant.getDay() + 6) % 7;
+    const ligne = lignes[indexJour];
+
+    if (ligne) {
+      ligne.classList.add("font-semibold");
+      ligne.querySelector("dt")?.classList.replace("text-noir/70", "text-noir");
+
+      const plage = ligne.querySelector("dd")?.textContent ?? "";
+      const bornes = plage.match(/(\d{2}):(\d{2})/g) ?? [];
+
+      if (bornes.length === 2) {
+        const enMinutes = (h: string) => {
+          const [heures, minutes] = h.split(":").map(Number);
+          return heures! * 60 + minutes!;
+        };
+        const courant = maintenant.getHours() * 60 + maintenant.getMinutes();
+        const ouvert = courant >= enMinutes(bornes[0]!) && courant < enMinutes(bornes[1]!);
+
+        badge.textContent = ouvert ? "Ouvert maintenant" : "Fermé";
+        badge.className = ouvert
+          ? "rounded-full px-3 py-1 text-xs font-bold bg-noir text-jaune"
+          : "rounded-full px-3 py-1 text-xs font-bold bg-noir/8 text-noir/55";
+      }
+    }
+  }
+
+  /* --- Envoi du formulaire via Web3Forms -------------------------------- */
+  const formulaire = document.getElementById("formulaire-contact") as HTMLFormElement | null;
+  const statut = document.getElementById("statut-formulaire");
+  const bouton = document.getElementById("bouton-envoi") as HTMLButtonElement | null;
+
+  function afficher(message: string, type: "ok" | "erreur" | "info") {
+    if (!statut) return;
+    statut.textContent = message;
+    statut.className =
+      "mt-4 min-h-6 text-sm font-medium " +
+      (type === "ok" ? "text-noir" : type === "erreur" ? "text-rouge-fonce" : "text-noir/60");
+  }
+
+  formulaire?.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    if (!bouton) return;
+
+    const piege = formulaire.elements.namedItem("societe") as HTMLInputElement | null;
+    if (piege?.value) return; // robot
+
+    if (!formulaire.checkValidity()) {
+      afficher("Merci de remplir votre nom, votre téléphone et votre message.", "erreur");
+      formulaire.reportValidity();
+      return;
+    }
+
+    const cle = formulaire.dataset.cle;
+    if (!cle) {
+      afficher(
+        "Le formulaire n'est pas encore activé. Appelez-nous directement, nous répondons tout de suite.",
+        "info"
+      );
+      return;
+    }
+
+    const libelleOrigine = bouton.textContent;
+    bouton.disabled = true;
+    bouton.textContent = "Envoi en cours…";
+    afficher("", "info");
+
+    try {
+      const donnees = new FormData(formulaire);
+      donnees.append("access_key", cle);
+      donnees.append("subject", "Nouvelle demande depuis le site");
+      donnees.delete("societe");
+
+      const reponse = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        body: donnees,
+      });
+      const resultat = await reponse.json();
+
+      if (resultat.success) {
+        formulaire.reset();
+        afficher("Message envoyé. Nous vous rappelons au plus vite.", "ok");
+      } else {
+        afficher("L'envoi a échoué. Appelez-nous, c'est plus rapide.", "erreur");
+      }
+    } catch {
+      afficher("L'envoi a échoué. Appelez-nous, c'est plus rapide.", "erreur");
+    } finally {
+      bouton.disabled = false;
+      bouton.textContent = libelleOrigine;
+    }
+  });
+</script>

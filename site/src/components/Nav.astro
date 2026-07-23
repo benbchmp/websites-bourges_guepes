@@ -1,0 +1,146 @@
+---
+import { Image } from "astro:assets";
+import logo from "../assets/logo.png";
+import { entreprise } from "../data/site";
+
+const liens = [
+  { href: "#a-propos", texte: "À propos" },
+  { href: "#realisations", texte: "Réalisations" },
+  { href: "#protocole", texte: "Protocole" },
+  { href: "#avis", texte: "Avis" },
+  { href: "#contact", texte: "Contact" },
+];
+---
+
+<!--
+  Le logo fourni est une pastille carrée (guêpe barrée). Plutôt que de
+  recomposer un bloc horizontal en image, le nom est posé en HTML à côté de la
+  pastille : c'est net à toutes les tailles d'écran, et ça reste du texte pour
+  un lecteur d'écran.
+
+  Barre flottante opaque plutôt que transparente sur la photo : le logo est
+  jaune / rouge sur fond blanc, il se noierait dans un ciel clair.
+-->
+<header class="fixed inset-x-3 top-3 z-50 sm:inset-x-4 sm:top-4">
+  <nav
+    aria-label="Navigation principale"
+    class="mx-auto flex max-w-7xl items-center justify-between gap-3 rounded-2xl border border-noir/8 bg-white/88 px-3 py-2.5 shadow-[0_10px_35px_-22px_rgba(33,33,33,0.6)] backdrop-blur-md sm:gap-4 sm:px-5"
+  >
+    <a href="#hero" class="flex shrink-0 items-center gap-2.5" aria-label={`${entreprise.nom} — retour en haut`}>
+      <Image src={logo} alt="" width={112} densities={[1, 2]} class="h-9 w-auto sm:h-11" loading="eager" />
+      <span class="flex flex-col justify-center leading-none">
+        <span class="font-display text-[1.15rem] leading-none text-noir sm:text-[1.4rem]">
+          BOURGES GUÊPES
+        </span>
+        <span class="mt-1 hidden text-[0.6rem] font-semibold uppercase leading-none tracking-[0.2em] text-noir/45 sm:block">
+          Destruction de nids · {entreprise.departement}
+        </span>
+      </span>
+    </a>
+
+    <ul class="hidden items-center gap-7 lg:flex">
+      {
+        liens.map((lien) => (
+          <li>
+            <a
+              href={lien.href}
+              class="relative text-[0.95rem] font-medium text-noir/75 transition-colors hover:text-noir after:absolute after:-bottom-1.5 after:left-0 after:h-0.5 after:w-0 after:bg-jaune after:transition-all hover:after:w-full"
+            >
+              {lien.texte}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+
+    <div class="flex items-center gap-2">
+      <a
+        href={entreprise.telephoneLien}
+        data-tap
+        class="hidden items-center gap-2 rounded-xl bg-rouge px-4 py-2.5 text-[0.95rem] font-bold text-white transition-colors hover:bg-rouge-fonce sm:inline-flex"
+      >
+        <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"></path>
+        </svg>
+        <span class="tabular-nums">{entreprise.telephone}</span>
+      </a>
+
+      <!-- Version courte du même appel, sur mobile : l'icône seule suffit. -->
+      <a
+        href={entreprise.telephoneLien}
+        aria-label={`Appeler le ${entreprise.telephone}`}
+        class="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-rouge text-white transition-colors hover:bg-rouge-fonce sm:hidden"
+      >
+        <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"></path>
+        </svg>
+      </a>
+
+      <button
+        type="button"
+        id="menu-bouton"
+        aria-expanded="false"
+        aria-controls="menu-mobile"
+        aria-label="Ouvrir le menu"
+        class="inline-flex h-11 w-11 items-center justify-center rounded-xl border border-noir/12 text-noir transition-colors hover:bg-noir/5 lg:hidden"
+      >
+        <svg id="menu-icone-ouvrir" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+          <path d="M4 7h16M4 12h16M4 17h16"></path>
+        </svg>
+        <svg id="menu-icone-fermer" class="hidden h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+          <path d="M6 6l12 12M18 6L6 18"></path>
+        </svg>
+      </button>
+    </div>
+  </nav>
+
+  <div
+    id="menu-mobile"
+    hidden
+    class="mx-auto mt-2 max-w-7xl overflow-hidden rounded-2xl border border-noir/8 bg-white/95 shadow-[0_18px_45px_-25px_rgba(33,33,33,0.65)] backdrop-blur-md lg:hidden"
+  >
+    <ul class="flex flex-col p-2">
+      {
+        liens.map((lien) => (
+          <li>
+            <a
+              href={lien.href}
+              data-tap
+              class="flex items-center rounded-xl px-4 py-3 font-medium text-noir/85 transition-colors hover:bg-jaune-pale hover:text-noir"
+            >
+              {lien.texte}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</header>
+
+<script>
+  const bouton = document.getElementById("menu-bouton");
+  const menu = document.getElementById("menu-mobile");
+  const iconeOuvrir = document.getElementById("menu-icone-ouvrir");
+  const iconeFermer = document.getElementById("menu-icone-fermer");
+
+  function basculer(ouvrir: boolean) {
+    if (!bouton || !menu || !iconeOuvrir || !iconeFermer) return;
+    menu.hidden = !ouvrir;
+    bouton.setAttribute("aria-expanded", String(ouvrir));
+    bouton.setAttribute("aria-label", ouvrir ? "Fermer le menu" : "Ouvrir le menu");
+    iconeOuvrir.classList.toggle("hidden", ouvrir);
+    iconeFermer.classList.toggle("hidden", !ouvrir);
+  }
+
+  bouton?.addEventListener("click", () => basculer(menu?.hidden ?? true));
+
+  // Refermer après un clic sur un lien, sinon le menu masque la section visée.
+  menu?.querySelectorAll("a").forEach((lien) => lien.addEventListener("click", () => basculer(false)));
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && menu && !menu.hidden) {
+      basculer(false);
+      bouton?.focus();
+    }
+  });
+</script>

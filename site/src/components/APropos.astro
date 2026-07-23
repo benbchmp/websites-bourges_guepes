@@ -1,0 +1,90 @@
+---
+import { Image } from "astro:assets";
+import photo from "../assets/technicien.jpg";
+import { entreprise, nuisibles } from "../data/site";
+---
+
+<section id="a-propos" class="bg-clair py-20 sm:py-28 lg:py-32">
+  <div class="mx-auto max-w-7xl px-5 sm:px-8">
+    <div class="grid items-center gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16">
+      <div class="reveal">
+        <p class="overline">À propos</p>
+        <span class="rule-guepe my-5"></span>
+
+        <h2 class="max-w-[19ch] text-[clamp(1.9rem,4.2vw,3.1rem)]">
+          Une guêpe n'est pas un frelon. Un frelon asiatique encore moins.
+        </h2>
+
+        <p class="mt-6 max-w-[62ch] text-[1.05rem] text-noir/70">
+          Un nid chez vous&nbsp;? <strong class="font-bold text-noir">{entreprise.nom}</strong> se
+          déplace dans {entreprise.zone}, sept jours sur sept, de 8h à 21h. C'est une entreprise
+          locale&nbsp;: pas de plateforme téléphonique, pas de sous-traitance — vous parlez
+          directement à celui qui viendra.
+        </p>
+
+        <ul class="mt-7 flex flex-wrap gap-2">
+          {
+            nuisibles.map((nuisible) => (
+              <li class="rounded-full border border-noir/12 bg-jaune-pale px-4 py-1.5 text-sm font-medium text-noir">
+                {nuisible}
+              </li>
+            ))
+          }
+        </ul>
+
+        <p class="mt-7 max-w-[62ch] text-[1.05rem] text-noir/70">
+          Chaque espèce a sa saison, ses emplacements et son niveau d'agressivité. C'est pour ça
+          qu'on <strong class="font-bold text-noir">identifie le nid avant de sortir le matériel</strong> —
+          une colonie de guêpes sous une tuile et un nid de frelons asiatiques à dix mètres ne se
+          traitent ni avec les mêmes produits, ni avec les mêmes précautions. Produits homologués,
+          agrément Certibiocide, et un tarif annoncé au téléphone avant tout déplacement.
+        </p>
+
+        <!-- Point de différenciation, et vraie information de service : c'est
+             ce qui distingue un professionnel d'un désinsectiseur pressé. -->
+        <p class="mt-6 max-w-[62ch] border-l-3 border-jaune pl-5 text-[0.98rem] text-noir/70">
+          <strong class="font-semibold text-noir">Un essaim d'abeilles&nbsp;?</strong> Nous ne le
+          détruisons pas. Appelez-nous quand même&nbsp;: nous vous mettons en relation avec un
+          apiculteur du secteur, qui viendra le récupérer.
+        </p>
+
+        <!-- Le message d'urgence est le pivot de la page : il est sorti du flux
+             de lecture pour qu'on le voie même en survolant le texte. -->
+        <div class="mt-9 border-l-3 border-rouge bg-rouge/6 py-4 pl-5 pr-4">
+          <p class="text-[1.05rem] font-semibold text-noir">
+            N'essayez pas de le faire vous-même.
+          </p>
+          <p class="mt-1 text-noir/70">
+            Une bombe du commerce excite la colonie sans atteindre le nid. Un nid de frelons
+            dérangé, c'est des dizaines de piqûres en quelques secondes.
+          </p>
+        </div>
+
+        <a
+          href="#contact"
+          data-tap
+          class="mt-8 inline-flex items-center gap-2 rounded-xl bg-jaune px-7 py-4 text-base font-bold text-noir transition-colors hover:bg-jaune-fonce"
+        >
+          Décrire ma situation
+          <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M5 12h14M13 6l6 6-6 6"></path>
+          </svg>
+        </a>
+      </div>
+
+      <div class="reveal relative">
+        <div class="overflow-hidden rounded-3xl">
+          <Image
+            src={photo}
+            alt="Technicien en combinaison de protection intégrale, matériel à la main, devant une maison de campagne"
+            widths={[480, 720, 928]}
+            sizes="(min-width: 1024px) 45vw, 90vw"
+            class="h-full w-full object-cover"
+          />
+        </div>
+        <!-- Rappel de l'abdomen rayé de la guêpe du logo, en filet d'accroche. -->
+        <span class="rule-guepe absolute -bottom-3 left-8 w-28" aria-hidden="true"></span>
+      </div>
+    </div>
+  </div>
+</section>

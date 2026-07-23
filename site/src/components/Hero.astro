@@ -1,0 +1,96 @@
+---
+import { Image } from "astro:assets";
+import fond from "../assets/exterminateur.jpg";
+import { entreprise, garanties } from "../data/site";
+---
+
+<section id="hero" class="relative flex min-h-[100svh] flex-col justify-end overflow-hidden bg-nuit">
+  <!--
+    Pas de vidéo ici, contrairement à France Nuisibles : le client n'a fourni
+    que des photos. Celle-ci (intervention réelle sur toiture, en fin de
+    journée) est traitée en fond plein écran. `loading="eager"` +
+    `fetchpriority="high"` parce que c'est la plus grande image du premier
+    écran — c'est elle qui fixe la vitesse perçue du site.
+  -->
+  <Image
+    src={fond}
+    alt=""
+    widths={[768, 1280, 1920]}
+    sizes="100vw"
+    quality={78}
+    loading="eager"
+    fetchpriority="high"
+    class="absolute inset-0 h-full w-full object-cover object-[58%_45%]"
+  />
+
+  <!-- Voile de lisibilité : sans lui, le texte blanc passe sous le seuil de
+       contraste sur le ciel et sur les tuiles éclairées. Renforcé en bas pour
+       l'ancrage du texte. -->
+  <div
+    class="absolute inset-0 bg-[linear-gradient(to_top,rgba(20,20,20,0.95)_0%,rgba(20,20,20,0.78)_35%,rgba(20,20,20,0.45)_65%,rgba(20,20,20,0.6)_100%)]"
+    aria-hidden="true">
+  </div>
+  <!-- Halo chaud repris du jaune de la marque, côté ciel. -->
+  <div
+    class="absolute inset-0 bg-[radial-gradient(115%_75%_at_78%_12%,rgba(255,215,0,0.22)_0%,transparent_62%)]"
+    aria-hidden="true">
+  </div>
+
+  <div class="relative mx-auto w-full max-w-7xl px-5 pb-14 pt-32 sm:px-8 sm:pb-20">
+    <p
+      class="mb-6 inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.16em] text-white backdrop-blur-sm"
+    >
+      <span class="relative flex h-2 w-2" aria-hidden="true">
+        <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-jaune opacity-75"></span>
+        <span class="relative inline-flex h-2 w-2 rounded-full bg-jaune"></span>
+      </span>
+      {entreprise.zone} · 7 j/7
+    </p>
+
+    <h1 class="max-w-[17ch] text-[clamp(2.5rem,7.2vw,5.4rem)] text-white">
+      Un nid de guêpes ou de frelons ?
+      <span class="block text-jaune">On s'en occupe aujourd'hui.</span>
+    </h1>
+
+    <p class="mt-6 max-w-[48ch] text-lg text-white/75 sm:text-xl">
+      Destruction de nids de guêpes, de frelons européens et de frelons asiatiques
+      à {entreprise.ville} et dans tout le {entreprise.departement}. Technicien agréé
+      Certibiocide, tarif annoncé au téléphone.
+    </p>
+
+    <div class="mt-9 flex flex-col gap-3 sm:flex-row sm:items-center">
+      <a
+        href={entreprise.telephoneLien}
+        data-tap
+        class="inline-flex items-center justify-center gap-2.5 rounded-xl bg-rouge px-7 py-4 text-base font-bold text-white transition-colors hover:bg-rouge-fonce"
+      >
+        <svg class="h-5 w-5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"></path>
+        </svg>
+        <span class="tabular-nums">{entreprise.telephone}</span>
+      </a>
+      <a
+        href="#realisations"
+        data-tap
+        class="inline-flex items-center justify-center rounded-xl border border-white/35 px-7 py-4 text-base font-semibold text-white transition-colors hover:border-white hover:bg-white/10"
+      >
+        Voir nos interventions
+      </a>
+    </div>
+
+    <!-- Trois preuves courtes sous les boutons : ce sont les arguments qui
+         décident quelqu'un à composer le numéro plutôt qu'à fermer l'onglet. -->
+    <ul class="mt-9 flex flex-wrap items-center gap-x-7 gap-y-2.5 border-t border-white/15 pt-6">
+      {
+        garanties.map((garantie) => (
+          <li class="flex items-center gap-2 text-sm font-medium text-white/80">
+            <svg class="h-4 w-4 shrink-0 text-jaune" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M20 6 9 17l-5-5" />
+            </svg>
+            {garantie}
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>

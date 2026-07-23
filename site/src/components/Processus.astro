@@ -1,0 +1,65 @@
+---
+import { processus, processusZones } from "../data/site";
+---
+
+<!-- Bande sombre : elle isole le protocole du reste de la page et fait écho au
+     hero. C'est le seul endroit du site où le fond n'est pas clair. -->
+<section id="protocole" class="bg-nuit py-20 text-white sm:py-28 lg:py-32">
+  <div class="mx-auto max-w-7xl px-5 sm:px-8">
+    <div class="reveal max-w-3xl">
+      <p class="overline overline-clair">Protocole</p>
+      <span class="rule-guepe rule-guepe-clair my-5"></span>
+      <h2 class="text-[clamp(1.9rem,4.2vw,3.1rem)] text-white">
+        On ne tue pas les guêpes. On éteint le nid.
+      </h2>
+      <p class="mt-6 max-w-[62ch] text-[1.05rem] text-white/65">
+        Pulvériser ce qui vole autour ne règle rien&nbsp;: la reine continue de pondre et la colonie
+        se reconstitue en quelques jours. Ce qui compte, c'est
+        <strong class="font-bold text-white">d'atteindre le nid lui-même</strong> — puis de revenir
+        vérifier que plus rien n'en sort.
+      </p>
+    </div>
+
+    <ol class="reveal mt-14 grid gap-6 lg:grid-cols-3 lg:gap-8">
+      {
+        processus.map((etape, index) => (
+          <li class="relative flex flex-col rounded-3xl border border-white/12 bg-white/4 p-8 sm:p-10">
+            <span class="w-fit rounded-full border border-white/25 px-3.5 py-1.5 text-xs font-bold uppercase tracking-wider text-white/80">
+              {etape.quand}
+            </span>
+
+            <h3 class="mt-6 text-2xl text-white sm:text-[1.6rem]">{etape.titre}</h3>
+            <p class="mt-2 font-semibold text-jaune">{etape.accroche}</p>
+            <p class="mt-4 text-white/65">{etape.texte}</p>
+
+            {index < processus.length - 1 && (
+              <span
+                class="absolute -bottom-4 left-1/2 z-10 flex h-8 w-8 -translate-x-1/2 rotate-90 items-center justify-center rounded-full bg-jaune text-noir lg:-right-6 lg:bottom-auto lg:left-auto lg:top-1/2 lg:-translate-y-1/2 lg:translate-x-0 lg:rotate-0"
+                aria-hidden="true"
+              >
+                <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M5 12h14M13 6l6 6-6 6" />
+                </svg>
+              </span>
+            )}
+          </li>
+        ))
+      }
+    </ol>
+
+    <div class="reveal mt-12 flex flex-col gap-5 border-t border-white/12 pt-8 sm:flex-row sm:items-start sm:justify-between">
+      <p class="max-w-[34ch] text-sm font-semibold uppercase tracking-[0.16em] text-jaune">
+        Là où on les trouve le plus souvent&nbsp;:
+      </p>
+      <ul class="flex flex-wrap gap-2">
+        {
+          processusZones.map((zone) => (
+            <li class="rounded-full border border-white/15 px-4 py-1.5 text-sm text-white/75">
+              {zone}
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,151 @@
+@import "tailwindcss";
+@import "./fonts.css";
+
+/* ---------------------------------------------------------------------------
+   Bourges Guêpes — jetons de design
+
+   Palette fournie par Benjamin (jaune guêpe / noir / rouge d'urgence). Trois
+   ajouts, parce que la charte telle quelle ne couvre pas tous les états
+   d'interface :
+
+   • --color-jaune-fonce (#E6C000) : survol des boutons jaunes. Sans lui, un
+     bouton jaune ne donne aucun retour au survol.
+   • --color-rouge-fonce (#B02A37) : survol des boutons rouges, ET couleur des
+     petits intitulés sur fond clair. Le rouge d'urgence #DC3545 ne fait que
+     4,15:1 sur le fond #F5F5F5 — sous le seuil de lisibilité pour du petit
+     texte. Le rouge foncé monte à 5,96:1.
+   • --color-nuit (#141414) : fond des bandes sombres. Le noir #212121 de la
+     charte sert au texte ; il fallait un cran en dessous pour que les bandes
+     sombres se distinguent de l'encre posée dessus.
+
+   ⚠️ RÈGLE QUI STRUCTURE TOUT LE SITE : le jaune #FFD700 ne sert JAMAIS de
+   couleur de texte sur fond clair (1,3:1, illisible). Il sert d'aplat (avec
+   texte noir : 11,5:1) ou de texte sur fond sombre (13:1). Accent chaud en
+   aplat, jamais en encre. Les petits intitulés sur fond clair prennent donc le
+   rouge foncé, pas le jaune.
+
+   TYPO — Anton + Switzer, auto-hébergées, reprises de France Nuisibles.
+   Anton n'existe qu'en une seule graisse : `font-synthesis: none` plus bas
+   empêche le navigateur de la grassir artificiellement.
+--------------------------------------------------------------------------- */
+@theme {
+  --color-jaune: #ffd700;
+  --color-jaune-fonce: #e6c000;
+  --color-jaune-pale: #fffacd;
+  --color-rouge: #dc3545;
+  --color-rouge-fonce: #b02a37;
+  --color-noir: #212121;
+  --color-anthracite: #424242;
+  --color-clair: #f5f5f5;
+  --color-nuit: #141414;
+
+  --font-display: "Anton", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Switzer", ui-sans-serif, system-ui, sans-serif;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    /* Les ancres ne doivent pas passer sous la barre de navigation flottante. */
+    scroll-padding-top: 6.5rem;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--color-clair);
+    color: var(--color-noir);
+    font-family: var(--font-sans);
+    font-weight: 400;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  h1, h2, h3, h4, .font-display {
+    font-family: var(--font-display);
+    font-weight: 400;
+    line-height: 1.08;
+    letter-spacing: -0.005em;
+    text-wrap: balance;
+    font-synthesis: none;
+  }
+
+  /* Cible de toucher confortable sur tous les éléments actionnables (44 px mini). */
+  :where(a, button)[data-tap] {
+    min-height: 44px;
+  }
+
+  /* Anneau de focus noir : il reste visible aussi bien sur le fond clair que
+     sur un aplat jaune, ce qu'un anneau rouge ou jaune ne ferait pas. */
+  :where(a, button, input, textarea, select, [tabindex]):focus-visible {
+    outline: 2px solid var(--color-noir);
+    outline-offset: 3px;
+    border-radius: 3px;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Classes maison. Elles sont dans @layer components — donc APRÈS la base mais
+   AVANT les utilitaires Tailwind — pour qu'un `tracking-[0.15em]` posé dans un
+   composant puisse encore les surcharger. Hors calque, du CSS non stratifié
+   gagnerait contre les utilitaires et les surcharges resteraient sans effet.
+--------------------------------------------------------------------------- */
+@layer components {
+  /* Filet rayé jaune / noir — l'abdomen de la guêpe du logo, et accessoirement
+     le code universel du danger. Sert de séparateur d'en-tête de section à la
+     place d'un trait neutre. C'est la signature graphique du site. */
+  .rule-guepe {
+    display: block;
+    height: 7px;
+    width: 4.5rem;
+    border-radius: 2px;
+    background: repeating-linear-gradient(
+      -45deg,
+      var(--color-noir) 0 6px,
+      var(--color-jaune) 6px 12px
+    );
+  }
+  /* Sur fond sombre, le noir des rayures se fond dans le fond : on l'éclaircit. */
+  .rule-guepe-clair {
+    background: repeating-linear-gradient(
+      -45deg,
+      var(--color-anthracite) 0 6px,
+      var(--color-jaune) 6px 12px
+    );
+  }
+
+  /* Suréline : petit intitulé capitales espacées au-dessus des titres de section. */
+  .overline {
+    font-weight: 600;
+    font-size: 0.75rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--color-rouge-fonce);
+  }
+  .overline-clair {
+    color: var(--color-jaune);
+  }
+
+  /* Apparition au défilement. Neutralisée si l'utilisateur a demandé à réduire
+     les animations (le script ajoute alors .is-visible d'emblée). */
+  .reveal {
+    opacity: 0;
+    transform: translateY(26px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+    will-change: opacity, transform;
+  }
+  .reveal.is-visible {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+  .reveal { opacity: 1; transform: none; }
+}
