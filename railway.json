@@ -1,7 +1,7 @@
 {
   "$schema": "https://railway.com/railway.schema.json",
   "build": {
-    "buildCommand": "echo '=== DOSSIER DE TRAVAIL ===' && pwd && echo '=== CONTENU ===' && ls -la && echo '=== package.json present ? ===' && (test -f package.json && echo OUI || echo NON) && echo '=== node/npm dispos ? ===' && (command -v node || echo pas-de-node) && (command -v npm || echo pas-de-npm) && echo '=== FIN DIAGNOSTIC ==='"
+    "buildCommand": "npm ci && npm run build"
   },
   "deploy": {
     "startCommand": "serve dist -l tcp://0.0.0.0:$PORT",
